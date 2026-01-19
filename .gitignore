@@ -1,0 +1,27 @@
+## Visual Studio / .NET Core
+bin/
+obj/
+out/
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+
+## Baze de date (EF Core local)
+*.db
+*.db-shm
+*.db-wal
+appsettings.Development.json
+
+## Publish output
+/publish/
+/setup/
+
+## Fișiere OS
+.DS_Store
+Thumbs.db
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
