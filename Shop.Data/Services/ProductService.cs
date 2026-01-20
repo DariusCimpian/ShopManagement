@@ -69,8 +69,6 @@ namespace Shop.Data.Services
              _context.Categories.Add(category);
              await _context.SaveChangesAsync();
         }
-
-
         public async Task DeleteCategoryAsync(int categoryId)
         {
              var category = await _context.Categories.FindAsync(categoryId);
