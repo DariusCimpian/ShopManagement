@@ -18,7 +18,6 @@ namespace Shop.App.ViewModels
             Products = new ObservableCollection<Product>();
             CartItems = new ObservableCollection<Product>();
             
-            LoadProducts();
         }
 
         [ObservableProperty]
@@ -32,11 +31,12 @@ namespace Shop.App.ViewModels
 
         [ObservableProperty]
         decimal totalAmount;
-
+        [ObservableProperty]
+        string searchText=string.Empty;
      public async Task LoadProducts()
         {
             
-                var dbProducts = await _productService.GetAllProductsAsync();
+                var dbProducts = await _productService.GetAllProductsAsync(SearchText);
                 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
@@ -49,6 +49,12 @@ namespace Shop.App.ViewModels
           
         
         }
+
+      [RelayCommand]
+      async Task PerformSearch()
+       {
+         await LoadProducts();
+       }
 
         [RelayCommand]
         void AddToCart(Product product)
