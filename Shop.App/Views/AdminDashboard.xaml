@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Shop.App.Views.AdminDashboard"
+             Title="Admin Panel"
+             BackgroundColor="#0F2027"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto, *" Padding="20">
+        
+        <VerticalStackLayout Grid.Row="0" Margin="0,0,0,30">
+            <Label Text="ADMIN CONTROL" FontSize="28" FontAttributes="Bold" TextColor="#00d2ff" HorizontalOptions="Center"/>
+            <Label Text="Alege o acțiune" FontSize="14" TextColor="Gray" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="20" VerticalOptions="Center">
+            
+            <Border StrokeShape="RoundRectangle 15" BackgroundColor="#203A43" HeightRequest="120" Padding="20">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnUserManagementClicked"/>
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="60, *">
+                    <Label Text="👥" FontSize="40" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Margin="15,0,0,0">
+                        <Label Text="USER MANAGEMENT" TextColor="White" FontAttributes="Bold" FontSize="18"/>
+                        <Label Text="Vezi, adaugă sau șterge utilizatori" TextColor="Gray" FontSize="12"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 15" BackgroundColor="#203A43" HeightRequest="120" Padding="20" >
+                <Border.GestureRecognizers>
+                   <TapGestureRecognizer Tapped="OnProductsManagementClicked"/>
+                </Border.GestureRecognizers>
+                 <Grid ColumnDefinitions="60, *">
+                    <Label Text="📦" FontSize="40" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Margin="15,0,0,0">
+                        <Label Text="PRODUCTS MANAGEMENT" TextColor="White" FontAttributes="Bold" FontSize="18"/>
+                        <Label Text="Gestionează stocul magazinului" TextColor="Gray" FontSize="12"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <Button Text="Deconectare" 
+                    Clicked="OnLogoutClicked"
+                    BackgroundColor="Transparent" 
+                    TextColor="#FF4B2B" 
+                    Margin="0,30,0,0"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

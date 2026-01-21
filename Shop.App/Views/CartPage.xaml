@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Shop.App.ViewModels"
+             xmlns:model="clr-namespace:Shop.Data.Models;assembly=Shop.Data"
+             x:Class="Shop.App.Views.CartPage"
+             Title="Finalizare Comandă"
+             BackgroundColor="#0F2027"
+             x:DataType="vm:ProductListViewModel">
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="20">
+
+        <Label Grid.Row="0" 
+               Text="Coșul Tău" 
+               FontSize="28" 
+               FontAttributes="Bold" 
+               TextColor="White" 
+               HorizontalOptions="Center" 
+               Margin="0,0,0,20"/>
+
+        <Border Grid.Row="1" 
+                StrokeShape="RoundRectangle 10" 
+                BackgroundColor="#203A43" 
+                Padding="15">
+            <CollectionView ItemsSource="{Binding CartItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Product">
+                        <Grid ColumnDefinitions="*, Auto" Margin="0,5">
+                            <Label Text="{Binding Name}" TextColor="White" FontSize="16"/>
+                            <Label Grid.Column="1" Text="{Binding Price, StringFormat='{0} RON'}" TextColor="#00d2ff" FontAttributes="Bold"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="Coșul este gol..." 
+                           TextColor="Gray" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"/>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="20" Margin="0,20,0,0">
+            
+            <Grid ColumnDefinitions="*, Auto">
+                <Label Text="TOTAL DE PLATĂ:" TextColor="White" FontAttributes="Bold" FontSize="18"/>
+                <Label Grid.Column="1" Text="{Binding TotalAmount, StringFormat='{0} RON'}" TextColor="#00d2ff" FontSize="22" FontAttributes="Bold"/>
+            </Grid>
+
+            <Button Text="FINALIZEAZĂ COMANDA"
+                    Command="{Binding PlaceOrderCommand}"
+                    BackgroundColor="#00d2ff"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    CornerRadius="10"
+                    HeightRequest="55"/>
+            
+            <Button Text="Mai adaugă produse"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="Gray"/>
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

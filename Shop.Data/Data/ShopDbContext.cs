@@ -17,15 +17,15 @@ namespace Shop.Data.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-           
-            if (!optionsBuilder.IsConfigured)
-            {
-                string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "shop_database.db");
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    if (!optionsBuilder.IsConfigured)
+    {
+      
+        string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "shop_database_v2.db");
 
-                optionsBuilder.UseSqlite($"Data Source={dbPath}");
-            }
-        }
+        optionsBuilder.UseSqlite($"Data Source={dbPath}");
+    }
+}
     }
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Shop.App.ViewModels"
+            xmlns:model="clr-namespace:Shop.Data.Models;assembly=Shop.Data"
+             x:Class="Shop.App.Views.ProductListPage"
+             x:DataType="vm:ProductListViewModel"
+             Title="Magazin"
+             BackgroundColor="#0F2027"
+             Shell.NavBarIsVisible="False"> 
+             <Grid RowDefinitions="Auto, *">
+        
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="20,15" BackgroundColor="#203A43">
+            
+            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                <Label Text="SPORT X" 
+                       FontSize="22" 
+                       FontAttributes="Bold" 
+                       TextColor="#00d2ff" /> <Label Text="Depășește-ți limitele." 
+                       FontSize="12" 
+                       TextColor="Gray" 
+                       FontAttributes="Italic"/>
+            </VerticalStackLayout>
+
+            <Border Grid.Column="1" 
+                    StrokeShape="RoundRectangle 20" 
+                    BackgroundColor="#00d2ff" 
+                    Padding="10,5"
+                    VerticalOptions="Center">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToCartCommand}"/>
+                </Border.GestureRecognizers>
+                
+                <HorizontalStackLayout Spacing="5">
+                    <Label Text="🛒" TextColor="Black" FontSize="18"/>
+                    
+                    <Label Text="{Binding CartCount}" 
+                           TextColor="Black" 
+                           FontAttributes="Bold" 
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <CollectionView Grid.Row="1" 
+                        ItemsSource="{Binding Products}" 
+                        Margin="10">
+            
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+
+         <CollectionView.ItemTemplate>
+    <DataTemplate x:DataType="model:Product">
+        <Border StrokeShape="RoundRectangle 15" BackgroundColor="#14282F" Margin="0,8" Padding="0">
+            <Grid RowDefinitions="150, Auto, Auto" Padding="10">
+                
+                <Image Grid.Row="0" 
+                       Aspect="AspectFill"
+                       HeightRequest="150"
+                       BackgroundColor="#203A43"
+                       Source="{Binding ImageUrl, TargetNullValue='https://via.placeholder.com/300', FallbackValue='https://via.placeholder.com/300'}">
+                    
+                    <Image.Triggers>
+                        <DataTrigger TargetType="Image" Binding="{Binding ImageUrl}" Value="">
+                            <Setter Property="Source" Value="https://via.placeholder.com/300"/>
+                        </DataTrigger>
+                    </Image.Triggers>
+                </Image>
+
+                <VerticalStackLayout Grid.Row="1" Margin="0,10,0,0">
+                    <Label Text="{Binding Name}" 
+                           TextColor="White" 
+                           FontAttributes="Bold" 
+                           FontSize="18"
+                           LineBreakMode="TailTruncation"/> 
+                    
+                    <Label Text="{Binding Category.Name}" 
+                           TextColor="#00d2ff" 
+                           FontSize="12"/>
+                </VerticalStackLayout>
+
+             <Grid Grid.Row="2" ColumnDefinitions="*, Auto" Margin="0,5,0,0">
+    
+    <Label Grid.Column="0" VerticalOptions="Center">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span Text="{Binding Price}" 
+                      TextColor="#00ffcc" 
+                      FontAttributes="Bold" 
+                      FontSize="18"/>
+                <Span Text=" RON" 
+                      TextColor="Gray" 
+                      FontSize="14"/>
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
+
+    <Button Grid.Column="1" 
+            Text="ADAUGĂ" 
+            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductListViewModel}}, Path=AddToCartCommand}"
+            CommandParameter="{Binding .}"
+            BackgroundColor="#00d2ff" 
+            TextColor="Black" 
+            FontAttributes="Bold"
+            CornerRadius="20"
+            HeightRequest="40"
+            Padding="15,0"
+            Margin="5,0,0,0"/>
+             </Grid>
+            </Grid>
+        </Border>
+    </DataTemplate>
+</CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="1"
+                Text="◀"
+                Command="{Binding GoBackCommand}"
+                HorizontalOptions="Start"
+                VerticalOptions="End"
+                Margin="20"
+                BackgroundColor="#203A43"
+                TextColor="White"
+                CornerRadius="25"
+                WidthRequest="50"
+                HeightRequest="50"
+                Opacity="0.8"/>
+    </Grid>
+
+</ContentPage>

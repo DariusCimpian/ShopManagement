@@ -1,7 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel; 
-using CommunityToolkit.Mvvm.Input;     
+using CommunityToolkit.Mvvm.Input;      
 using Shop.App.Models;
 using Shop.Data.Services;
+using Shop.App.Views;
+using Shop.App.Helpers;
+
 
 namespace Shop.App.ViewModels
 {
@@ -9,48 +12,53 @@ namespace Shop.App.ViewModels
     {
         private readonly UserService _userService;
 
-      
         public LoginViewModel(UserService userService)
         {
             _userService = userService;
         }
 
-       [ObservableProperty]
-        public string username=string.Empty;
+        [ObservableProperty]
+        private string username = string.Empty;
 
         [ObservableProperty]
-        public string password=string.Empty;
+        private string password = string.Empty;
 
-        [RelayCommand]
-        private async Task Login()
+      [RelayCommand]
+     private async Task Login()
+      {
+    
+          if (ValidationHelper.AreFieldsEmpty(Username, Password))
+              {
+               await Shell.Current.DisplayAlertAsync("Eroare", "Te rog introdu user și parola.", "OK");
+               return;
+              }
+
+   
+          var user = await _userService.LoginAsync(Username, Password);
+
+         if (user == null)
+           {
+             await Shell.Current.DisplayAlertAsync("Eșec", "Username sau parolă greșită.", "OK");
+             return;
+           }
+      string userRole = "N/A";
+     if (user.Username.ToLower().Trim() == "admin" || userRole=="Admin") 
         {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-            {
-                await Shell.Current.DisplayAlert("Eroare", "Te rog introdu user si parola.", "OK");
-                return;
-            }
-
-            var user = await _userService.LoginAsync(Username, Password);
-
-            if (user == null)
-            {
-                await Shell.Current.DisplayAlert("Eșec", "Username sau parolă greșită, sau cont inactiv.", "OK");
-                return;
-            }
-
-            CurrentUser.Id = user.Id;
-            CurrentUser.Username = user.Username;
-            CurrentUser.Role = user.Role;
-            CurrentUser.Email = user.Email;
-
-            await Shell.Current.GoToAsync("///MainPage");
+            await Shell.Current.GoToAsync(nameof(Views.AdminDashboard));
         }
-
-        [RelayCommand]
-        private async Task GoToRegister()
+        else 
         {
-           
-            await Shell.Current.GoToAsync("RegisterPage");
+            await Shell.Current.GoToAsync(nameof(Views.ProductListPage));
         }
+     }
+
+       
+       [RelayCommand]
+       private async Task GoToRegister()
+         {
+
+        await Shell.Current.GoToAsync(nameof(RegisterPage));
+   
+         }
     }
 }

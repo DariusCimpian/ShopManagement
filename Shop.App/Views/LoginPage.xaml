@@ -86,7 +86,7 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <Button Text="Nu ai cont? Fă-ți echipă aici."
+                <Button Text="Nu ai cont? Fă-ți aici."
                         Command="{Binding GoToRegisterCommand}"
                         BackgroundColor="Transparent"
                         TextColor="#B2BEC3"

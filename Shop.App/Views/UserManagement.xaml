@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Shop.App.ViewModels"
+             xmlns:model="clr-namespace:Shop.Data.Models;assembly=Shop.Data"
+             x:Class="Shop.App.Views.UserManagement"
+             x:DataType="vm:UserManagementViewModel"
+             Title="Utilizatori"
+             BackgroundColor="#0F2027"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+        
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *" Padding="20" BackgroundColor="#203A43">
+            <Button Text="◀" Command="{Binding GoBackCommand}" BackgroundColor="Transparent" TextColor="White" FontSize="20" HorizontalOptions="Start"/>
+            <Label Grid.Column="1" Text="Gestionare Utilizatori" TextColor="White" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" Margin="10,0,0,0"/>
+        </Grid>
+
+        <Border Grid.Row="1" 
+                IsVisible="{Binding IsAddFormVisible}"
+                StrokeShape="RoundRectangle 0,0,20,20" 
+                BackgroundColor="#1c3038" 
+                Padding="20" 
+                Margin="0,0,0,10">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{Binding SaveButtonText}" TextColor="#00d2ff" FontAttributes="Bold" HorizontalOptions="Center"/>
+                
+                <Entry Placeholder="Username" Text="{Binding NewUsername}" TextColor="White" PlaceholderColor="Gray" BackgroundColor="#203A43"/>
+                <Entry Placeholder="Email" Text="{Binding NewEmail}" TextColor="White" PlaceholderColor="Gray" BackgroundColor="#203A43"/>
+                <Entry Placeholder="Parola (lasa gol daca nu schimbi)" IsPassword="True" Text="{Binding NewPassword}" TextColor="White" PlaceholderColor="Gray" BackgroundColor="#203A43"/>
+                
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Text="Rol:" TextColor="White" VerticalOptions="Center"/>
+                    <Picker Grid.Column="1" SelectedItem="{Binding NewRole}" TextColor="White" BackgroundColor="#203A43" WidthRequest="120">
+                         <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>User</x:String>
+                                <x:String>Admin</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,10,0,0">
+                    <Button Text="ANULEAZĂ" Command="{Binding CancelAddCommand}" BackgroundColor="Transparent" TextColor="Gray" BorderColor="Gray" BorderWidth="1"/>
+                    <Button Grid.Column="1" Text="{Binding SaveButtonText}" Command="{Binding SaveActionCommand}" BackgroundColor="#00d2ff" TextColor="Black" FontAttributes="Bold"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <RefreshView Grid.Row="2" IsRefreshing="{Binding IsBusy}" Command="{Binding LoadUsersCommand}">
+            <CollectionView ItemsSource="{Binding Users}" Margin="15">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:User">
+                        <Border StrokeShape="RoundRectangle 10" BackgroundColor="#203A43" Margin="0,5" Padding="15" StrokeThickness="0">
+                            <Grid ColumnDefinitions="*, Auto, Auto">
+                                
+                                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                    <Label Text="{Binding Username}" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                                    <Label Text="{Binding Email}" TextColor="Gray" FontSize="12"/>
+                                    <Label Text="{Binding Role}" TextColor="#00d2ff" FontSize="10" TextTransform="Uppercase"/> 
+                                </VerticalStackLayout>
+
+                                <Button Grid.Column="1" 
+                                        Text="✏️" 
+                                        BackgroundColor="Transparent"
+                                        TextColor="White"
+                                        FontSize="18"
+                                        WidthRequest="50"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserManagementViewModel}}, Path=EditUserCommand}"
+                                        CommandParameter="{Binding .}"/>
+
+                                <Button Grid.Column="2" 
+                                        Text="🗑️" 
+                                        BackgroundColor="Transparent"
+                                        TextColor="#FF4B2B"
+                                        FontSize="18"
+                                        WidthRequest="50"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserManagementViewModel}}, Path=DeleteUserCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <Button Grid.Row="2"
+                Text="+" 
+                Command="{Binding ToggleAddFormCommand}"
+                FontSize="30"
+                BackgroundColor="#00d2ff"
+                TextColor="#0F2027"
+                CornerRadius="30"
+                WidthRequest="60"
+                HeightRequest="60"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="25"
+                Shadow="{Shadow Brush=#00d2ff, Radius=10}">
+             <Button.Triggers>
+                 <DataTrigger TargetType="Button" Binding="{Binding IsAddFormVisible}" Value="True">
+                     <Setter Property="Text" Value="×"/>
+                     <Setter Property="BackgroundColor" Value="#FF4B2B"/>
+                 </DataTrigger>
+                 <DataTrigger TargetType="Button" Binding="{Binding IsAddFormVisible}" Value="False">
+                     <Setter Property="Text" Value="+"/>
+                     <Setter Property="BackgroundColor" Value="#00d2ff"/>
+                 </DataTrigger>
+             </Button.Triggers>
+        </Button>
+
+    </Grid>
+</ContentPage>

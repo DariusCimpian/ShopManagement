@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Shop.App.ViewModels"
+             x:Class="Shop.App.Views.RegisterPage"
+             Title="Cont Nou"
+             BackgroundColor="#0F2027"
+             x:DataType="vm:RegisterViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+            <Label Text="CREEAZĂ CONT"
+                   TextColor="White"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Entry Placeholder="Alege un Username"
+                   PlaceholderColor="Gray"
+                   Text="{Binding Username}"
+                   TextColor="White"
+                   BackgroundColor="#203A43" />
+
+            <Entry Placeholder="Adresa de Email"
+                   PlaceholderColor="Gray"
+                   Keyboard="Email"
+                   Text="{Binding Email}"
+                   TextColor="White"
+                   BackgroundColor="#203A43" />
+
+            <Entry Placeholder="Parola"
+                   PlaceholderColor="Gray"
+                   IsPassword="True"
+                   Text="{Binding Password}"
+                   TextColor="White"
+                   BackgroundColor="#203A43" />
+
+            <Entry Placeholder="Confirmă Parola"
+                   PlaceholderColor="Gray"
+                   IsPassword="True"
+                   Text="{Binding ConfirmPassword}"
+                   TextColor="White"
+                   BackgroundColor="#203A43" />
+
+            <Button Text="ÎNREGISTRARE"
+                    Command="{Binding RegisterCommand}"
+                    BackgroundColor="#00d2ff"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+
+            <Button Text="Înapoi la Login"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#00d2ff" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

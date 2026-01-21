@@ -13,9 +13,11 @@ namespace Shop.Data.Services
             _context = context;
         }
 
+        
         public async Task<List<Product>> GetAllProductsAsync(string? searchText = null, int? categoryId = null)
         {
-            var query = _context.Products.AsQueryable();
+           
+            var query = _context.Products.AsNoTracking().AsQueryable();
 
             query = query.Include(p => p.Category);
 
@@ -35,9 +37,9 @@ namespace Shop.Data.Services
         public async Task AddProductAsync(Product product)
         {
             if (product.Price <= 0)
-            {
                 throw new ArgumentException("Prețul trebuie să fie pozitiv.");
-            }
+
+            _context.ChangeTracker.Clear();
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -45,12 +47,16 @@ namespace Shop.Data.Services
 
         public async Task UpdateProductAsync(Product product)
         {
+            _context.ChangeTracker.Clear(); 
+
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteProductAsync(int productId)
         {
+            _context.ChangeTracker.Clear(); 
+
             var product = await _context.Products.FindAsync(productId);
             if (product != null)
             {
@@ -59,24 +65,31 @@ namespace Shop.Data.Services
             }
         }
 
+    
         public async Task<List<Category>> GetCategoriesAsync()
         {
-            return await _context.Categories.ToListAsync();
+            
+            return await _context.Categories.AsNoTracking().ToListAsync();
         }
 
-         public async Task AddCategoryAsync(Category category)
+        public async Task AddCategoryAsync(Category category)
         {
-             _context.Categories.Add(category);
-             await _context.SaveChangesAsync();
+            _context.ChangeTracker.Clear(); 
+
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
         }
+
         public async Task DeleteCategoryAsync(int categoryId)
         {
-             var category = await _context.Categories.FindAsync(categoryId);
-              if (category != null)
-                {
-                    _context.Categories.Remove(category);
-                    await _context.SaveChangesAsync();
-                }
+            _context.ChangeTracker.Clear(); 
+
+            var category = await _context.Categories.FindAsync(categoryId);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

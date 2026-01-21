@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Shop.App.ViewModels"
+             xmlns:model="clr-namespace:Shop.Data.Models;assembly=Shop.Data"
+             x:Class="Shop.App.Views.ProductManagementPage"
+             x:Name="productPage"
+             Title="Produse"
+             BackgroundColor="#0F2027"
+             x:DataType="vm:ProductManagementViewModel">
+
+    <Grid RowDefinitions="Auto, *" Padding="15" RowSpacing="10">
+
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto">
+            <Button Text="INAPOI" 
+                    Command="{Binding GoBackCommand}" 
+                    BackgroundColor="Transparent" 
+                    TextColor="Gray"/>
+            
+            <Label Grid.Column="1" 
+                   Text="PRODUSE" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="#00d2ff" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"/>
+            
+            <Button Grid.Column="2" 
+                    Text="{Binding IsAddFormVisible, Converter={x:Null}, StringFormat='{0} -'}" 
+                    Command="{Binding ToggleAddFormCommand}" 
+                    BackgroundColor="#00d2ff" 
+                    TextColor="Black" 
+                    FontAttributes="Bold"
+                    HeightRequest="40"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+
+            <CollectionView ItemsSource="{Binding Products}">
+                
+                <CollectionView.Triggers>
+                    <DataTrigger TargetType="CollectionView" Binding="{Binding IsAddFormVisible}" Value="True">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                </CollectionView.Triggers>
+
+                <CollectionView.EmptyView>
+                    <Label Text="Nu există produse încă." 
+                           TextColor="Gray" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center"/>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Product">
+                        <Border StrokeShape="RoundRectangle 10" BackgroundColor="#14282F" Padding="10" Margin="0,5" StrokeThickness="0">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label Text="{Binding Name}" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                                    
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="{Binding Price, StringFormat='Preț: {0} RON'}" TextColor="#00d2ff" FontSize="12"/>
+                                        <Label Text="{Binding Stock, StringFormat='Stoc: {0}'}" TextColor="Gray" FontSize="12"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+
+                                <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                                    <Button Text="Modifică" 
+                                            FontSize="10"
+                                            Command="{Binding BindingContext.EditProductCommand, Source={x:Reference productPage}}" 
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#203A43" TextColor="White" HeightRequest="35"/>
+                                    
+                                    <Button Text="Șterge" 
+                                            FontSize="10"
+                                            Command="{Binding BindingContext.DeleteProductCommand, Source={x:Reference productPage}}" 
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#3A2020" TextColor="#FF4B2B" HeightRequest="35"/>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <ScrollView IsVisible="{Binding IsAddFormVisible}">
+                <VerticalStackLayout Spacing="15" Padding="5">
+                    <Label Text="{Binding SaveButtonText}" TextColor="#00d2ff" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+                    <Entry Placeholder="Nume Produs" Text="{Binding Name}" TextColor="White" BackgroundColor="#203A43"/>
+                    
+                    <Grid ColumnDefinitions="*,*">
+                        <Entry Grid.Column="0" Placeholder="Preț" Text="{Binding Price}" Keyboard="Numeric" TextColor="White" BackgroundColor="#203A43" Margin="0,0,5,0"/>
+                        <Entry Grid.Column="1" Placeholder="Stoc" Text="{Binding Stock}" Keyboard="Numeric" TextColor="White" BackgroundColor="#203A43" Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <Picker Title="Selectează Categoria"
+                            ItemsSource="{Binding Categories}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedCategory}"
+                            TextColor="White" TitleColor="Gray" BackgroundColor="#203A43"/>
+                    
+                    <Button Text="+ Categorie Nouă" Command="{Binding AddCategoryCommand}" BackgroundColor="#203A43" TextColor="White" FontSize="12" HorizontalOptions="End"/>
+
+                    <Editor Placeholder="Descriere..." Text="{Binding Description}" TextColor="White" BackgroundColor="#203A43" HeightRequest="80"/>
+                    <Entry Placeholder="URL Imagine" Text="{Binding ImageUrl}" TextColor="White" BackgroundColor="#203A43"/>
+
+                    <Button Text="{Binding SaveButtonText}" Command="{Binding SaveActionCommand}" BackgroundColor="#00d2ff" TextColor="Black" FontAttributes="Bold" Margin="0,10,0,0"/>
+                    <Button Text="Anulează" Command="{Binding CancelAddCommand}" BackgroundColor="Transparent" TextColor="Red"/>
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </Grid>
+    </Grid>
+</ContentPage>

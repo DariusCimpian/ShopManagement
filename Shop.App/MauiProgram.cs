@@ -23,14 +23,31 @@ namespace Shop.App
     		builder.Logging.AddDebug();
 #endif
 
-          builder.Services.AddDbContext<ShopDbContext>();
+            builder.Services.AddDbContext<ShopDbContext>();
 
             builder.Services.AddTransient<UserService>();    
             builder.Services.AddTransient<ProductService>();
+    
 
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<LoginPage>();
 
+            builder.Services.AddTransient<RegisterViewModel>();
+            builder.Services.AddTransient<RegisterPage>();
+
+            builder.Services.AddTransient<ProductListPage>(); 
+            builder.Services.AddSingleton<ProductListViewModel>();
+
+            builder.Services.AddTransient<CartPage>();
+
+            builder.Services.AddTransient<AdminDashboard>();
+
+            builder.Services.AddTransient<UserManagement>();
+            builder.Services.AddTransient<UserManagementViewModel>();
+
+            builder.Services.AddTransient<ProductManagementViewModel>();
+            builder.Services.AddTransient<ProductManagementPage>();
+         
             return builder.Build();
         }
     }

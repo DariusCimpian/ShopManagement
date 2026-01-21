@@ -56,6 +56,7 @@ namespace Shop.Data.Services
 
             return true;
         }
+        
 
         public async Task<List<User>> GetAllUsersAsync()
         {
@@ -68,6 +69,52 @@ namespace Shop.Data.Services
             if (user != null)
             {
                 _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+    public async Task<bool> UpdateUserAsync(User userToUpdate)
+{
+    var existingUser = await _context.Users.FindAsync(userToUpdate.Id);
+    if (existingUser == null) return false;
+
+ 
+    existingUser.Username = userToUpdate.Username;
+    existingUser.Email = userToUpdate.Email;
+    existingUser.Role = userToUpdate.Role;
+
+   
+    if (!string.IsNullOrEmpty(userToUpdate.PasswordHash))
+    {
+        existingUser.PasswordHash = userToUpdate.PasswordHash;
+        existingUser.PasswordSalt = userToUpdate.PasswordSalt;
+    }
+
+    _context.Users.Update(existingUser);
+    await _context.SaveChangesAsync();
+    return true;
+}
+        public async Task InitAdminAsync()
+        {
+          
+            var adminExists = await _context.Users.AnyAsync(u => u.Username == "admin");
+
+            if (!adminExists)
+            {
+                var (hash, salt) = PasswordHasher.HashPassword("Admin123!");
+
+                var admin = new User
+                {
+                    Username = "admin",
+                    Email = "admin@SportX.com",
+                    Role = "Admin", 
+                    IsActive = true,
+                    PasswordHash = hash,
+                    PasswordSalt = salt,
+                    LastLogin = null
+                };
+
+                _context.Users.Add(admin);
                 await _context.SaveChangesAsync();
             }
         }
