@@ -1,16 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Shop.App.Views;
 
-namespace Shop.App;
-
-public partial class App : Application
+namespace Shop.App
 {
-	public App()
-	{
-		InitializeComponent();
-	}
+    public partial class App : Application
+    {
+        public App()
+        {
+            InitializeComponent();
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new AppShell());
-	}
-}
+          this.MainPage = new AppShell();
+                
+        }
+    }
+	
+  }

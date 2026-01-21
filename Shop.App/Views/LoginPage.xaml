@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Shop.App.ViewModels"
+             x:Class="Shop.App.Views.LoginPage"
+             NavigationPage.HasNavigationBar="False"
+             Title="Login">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0F2027" Offset="0.0" />  <GradientStop Color="#203A43" Offset="0.5" />
+            <GradientStop Color="#2C5364" Offset="1.0" />  </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <Grid>
+            <Ellipse Fill="#FFFFFF" Opacity="0.05" WidthRequest="300" HeightRequest="300" 
+                     HorizontalOptions="End" VerticalOptions="Start" Margin="0,-100,-50,0"/>
+            <Ellipse Fill="#FF416C" Opacity="0.1" WidthRequest="200" HeightRequest="200" 
+                     HorizontalOptions="Start" VerticalOptions="End" Margin="-50,0,0,50"/>
+
+            <VerticalStackLayout Spacing="25" 
+                                 Padding="30" 
+                                 VerticalOptions="Center">
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="SPORTX"
+                           TextColor="White"
+                           FontSize="42"
+                           FontAttributes="Bold,Italic"
+                           HorizontalOptions="Center" 
+                           CharacterSpacing="2"/>
+                    
+                    <Label Text="Gear Up. Game On."
+                           TextColor="#B2BEC3"
+                           FontSize="16"
+                           HorizontalOptions="Center"
+                           TextTransform="Uppercase"
+                           CharacterSpacing="1"/>
+                </VerticalStackLayout>
+
+                <BoxView HeightRequest="20" Color="Transparent"/>
+
+                <Border Stroke="Transparent"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#20FFFFFF"
+                        Padding="20">
+                    
+                    <VerticalStackLayout Spacing="15">
+                        
+                        <Border Stroke="#50FFFFFF" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#10000000" Padding="15,0">
+                            <Entry Placeholder="Username"
+                                   PlaceholderColor="#CCCCCC"
+                                   TextColor="White"
+                                   Text="{Binding Username}"
+                                   HeightRequest="50"
+                                   ClearButtonVisibility="WhileEditing"/>
+                        </Border>
+
+                        <Border Stroke="#50FFFFFF" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#10000000" Padding="15,0">
+                            <Entry Placeholder="Parola"
+                                   PlaceholderColor="#CCCCCC"
+                                   TextColor="White"
+                                   IsPassword="True"
+                                   Text="{Binding Password}"
+                                   HeightRequest="50"/>
+                        </Border>
+
+                        <Button Text="INTRĂ ÎN JOC"
+                                Command="{Binding LoginCommand}"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                CornerRadius="25"
+                                HeightRequest="55"
+                                Margin="0,10,0,0"
+                                TextColor="White">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#FF416C" Offset="0.0" /> <GradientStop Color="#FF4B2B" Offset="1.0" /> </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Shadow>
+                                <Shadow Brush="#FF416C" Offset="0,5" Radius="10" Opacity="0.5"/>
+                            </Button.Shadow>
+                        </Button>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Nu ai cont? Fă-ți echipă aici."
+                        Command="{Binding GoToRegisterCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#B2BEC3"
+                        FontSize="14"
+                        TextTransform="None"/>
+
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

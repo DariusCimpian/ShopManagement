@@ -1,9 +1,13 @@
-﻿namespace Shop.App;
+﻿using Shop.App.Views;
 
-public partial class AppShell : Shell
+namespace Shop.App
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+    public partial class AppShell : Shell
+    {
+        public AppShell()
+        {
+            InitializeComponent();
+
+        }
+    }
 }
